@@ -72,6 +72,11 @@
       const rollCost = parseFloat(document.getElementById("rollCost").value);
       const usedLength = parseFloat(document.getElementById("usedLength").value);
 
+      if (isNaN(rollLength) || isNaN(rollCost) || isNaN(usedLength)) {
+        document.getElementById("result").innerHTML = "<b style='color:red;'>Please fill in all fields correctly.</b>";
+        return;
+      }
+
       if (usedLength > rollLength) {
         document.getElementById("result").innerHTML = "<b style='color:red;'>Used wire cannot exceed roll length!</b>";
         return;
@@ -79,17 +84,16 @@
 
       const unitCost = rollCost / rollLength;
       const usedCost = usedLength * unitCost;
+      const gstAmount = usedCost * 0.18;
+      const totalWithGst = usedCost + gstAmount;
+
       const remainingLength = rollLength - usedLength;
       const remainingValue = remainingLength * unitCost;
 
       document.getElementById("result").innerHTML = `
         <b>Results:</b><br>
         🔹 Cost of wire used (₹): <b>${usedCost.toFixed(2)}</b><br>
+        🔹 GST @ 18% (₹): <b>${gstAmount.toFixed(2)}</b><br>
+        🔹 Total with GST (₹): <b>${totalWithGst.toFixed(2)}</b><br>
         🔹 Remaining wire (m): <b>${remainingLength}</b><br>
         🔹 Value of remaining wire (₹): <b>${remainingValue.toFixed(2)}</b>
-      `;
-    }
-  </script>
-
-</body>
-</html>
